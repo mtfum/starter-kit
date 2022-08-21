@@ -3,8 +3,8 @@ import {StyleSheet} from 'react-native';
 import {
   ViroARScene,
   ViroText,
-  ViroConstants,
   ViroARSceneNavigator,
+  ViroTrackingStateConstants,
 } from '@viro-community/react-viro';
 
 const HelloWorldSceneAR = () => {
@@ -12,10 +12,11 @@ const HelloWorldSceneAR = () => {
 
   function onInitialized(state, reason) {
     console.log('guncelleme', state, reason);
-    if (state === ViroConstants.TRACKING_NORMAL) {
+    if (state === ViroTrackingStateConstants.TRACKING_NORMAL) {
       setText('Hello World!');
-    } else if (state === ViroConstants.TRACKING_NONE) {
+    } else if (state === ViroTrackingStateConstants.TRACKING_UNAVAILABLE) {
       // Handle loss of tracking
+      setText('Tracking lost. Please find a surface.');
     }
   }
 
