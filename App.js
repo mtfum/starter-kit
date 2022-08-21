@@ -5,10 +5,16 @@ import {
   ViroText,
   ViroARSceneNavigator,
   ViroTrackingStateConstants,
+  Viro3DObject,
+  ViroAmbientLight,
+  ViroSpotLight,
+  ViroARPlaneSelector,
+  ViroNode,
 } from '@viro-community/react-viro';
 
 const HelloWorldSceneAR = () => {
   const [text, setText] = useState('Initializing AR...');
+  const [isEmojiVisible, setIsEmojiVisible] = useState(true);
 
   function onInitialized(state, reason) {
     console.log('guncelleme', state, reason);
@@ -22,12 +28,41 @@ const HelloWorldSceneAR = () => {
 
   return (
     <ViroARScene onTrackingUpdated={onInitialized}>
-      <ViroText
-        text={text}
-        scale={[0.5, 0.5, 0.5]}
-        position={[0, 0, -1]}
-        style={styles.helloWorldTextStyle}
+      <ViroAmbientLight
+        direction={[0, -1, -0.2]}
+        position={[0, 3, 1]}
+        color="#ffffff"
+        castsShadow={true}
       />
+      <ViroSpotLight innerAngle={5} outerAngle={90} />
+
+      <ViroARPlaneSelector>
+        {/* <Viro3DObject
+          source={require('./emoji_smile.vrx')}
+          position={[0, 0.1, 0]}
+          scale={[0.2, 0.2, 0.2]}
+          type="VRX"
+          dragType="FixedDistance"
+          onDrag={() => {}}
+        /> */}
+        <ViroNode
+          position={[0, 0, -1]}
+          dragType="FixedToWorld"
+          onDrag={() => {}}>
+          <Viro3DObject
+            source={require('./emoji_smile.vrx')}
+            visible={isEmojiVisible}
+            position={[0, 0.1, 0]}
+            scale={[0.2, 0.2, 0.2]}
+            type="VRX"
+            dragType="FixedDistance"
+            onDrag={() => {}}
+            onClick={() => {
+              setIsEmojiVisible(false);
+            }}
+          />
+        </ViroNode>
+      </ViroARPlaneSelector>
     </ViroARScene>
   );
 };
